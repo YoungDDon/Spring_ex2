@@ -56,23 +56,23 @@ public class GuestbookRepositoryTests {
 //    });
 //  }
 
-  @Test
-  public void testQueryMany(){
-    Pageable pageable = PageRequest.of(0,10, Sort.by("gno").descending());
-    QGuestbook  qGuestbook  = QGuestbook.guestbook; //Q어저고 쿼리dsl쓰려고 만든것
-    String keyword = "1";
-    BooleanBuilder builder = new BooleanBuilder();
-
-    BooleanExpression exTitle = qGuestbook.title.contains(keyword);
-    BooleanExpression exContent = qGuestbook.content.contains(keyword);
-    BooleanExpression exAll = exTitle.or(exContent);
-
-    builder.and(exAll);
-    builder.and(qGuestbook.gno.gt(0L));
-
-    Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
-    result.stream().forEach(guestbook -> {
-      System.out.println(guestbook);
-    });
-  }
+//  @Test
+//  public void testQueryMany(){
+//    Pageable pageable = PageRequest.of(0,10, Sort.by("gno").descending());
+//    QGuestbook  qGuestbook  = QGuestbook.guestbook; //Q어저고 쿼리dsl쓰려고 만든것
+//    String keyword = "1";
+//    BooleanBuilder builder = new BooleanBuilder();
+//
+//    BooleanExpression exTitle = qGuestbook.title.contains(keyword);
+//    BooleanExpression exContent = qGuestbook.content.contains(keyword);
+//    BooleanExpression exAll = exTitle.or(exContent);
+//
+//    builder.and(exAll);
+//    builder.and(qGuestbook.gno.gt(0L));
+//
+//    Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
+//    result.stream().forEach(guestbook -> {
+//      System.out.println(guestbook);
+//    });
+//  }
 }
