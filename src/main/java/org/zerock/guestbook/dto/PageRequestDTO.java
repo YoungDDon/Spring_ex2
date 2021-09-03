@@ -12,19 +12,20 @@ import org.springframework.data.domain.Sort;
 @Data
 public class PageRequestDTO {
 
-    private int page;
-    private int size;
-
+    private int page, size;
+    private String type, keyword;
     public PageRequestDTO(){
         this.page = 1;
         this.size = 10;
     }
 
-    public Pageable getPagealbe() {
-        return getPagealbe();
-    }
+//    public Pageable getPagealbe() {
+//        return getPagealbe();
+//    }
 
     public Pageable getPagealbe(Sort sort){
         return PageRequest.of(page -1, size, sort);
     }
+
+
 }

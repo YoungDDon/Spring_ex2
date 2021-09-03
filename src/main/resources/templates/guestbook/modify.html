@@ -1,72 +1,71 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
-  <th:block th:fragment="content">
-    <form action="/guestbook/modify" method="post">
-      <input type="hidden" th:value="${requestDTO.page}" name="page" />
-      <h1 class="mt-4">Guestbook Modify Page</h1>
-      <div class="form-group">
-        <label>글번호</label>
-        <input type="text" class="form-control" name="gno"
-               th:value="${dto.gno}" readonly>
-      </div>
-      <div class="form-group">
-        <label>제목</label>
-        <input type="text" class="form-control" name="title"
-             th:value="${dto.title}">
-      </div>
+    <th:block th:fragment="content">
+        <form action="/guestbook/modify" method="post">
 
-      <div class="form-group">
-        <label>내용</label>
-        <textarea class="form-control" name="content"
-                rows="5">[[${dto.content}]]</textarea>
-      </div>
+            <input type="hidden" th:value="${requestDTO.page}" name="page" />
+            <h1 class="mt-4">Guestbook Modify Page</h1>
+            <div class="form-group">
+                <label>글번호</label>
+                <input type="text" class="form-control" name="gno"
+                       th:value="${dto.gno}" readonly>
+            </div>
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" class="form-control" name="title"
+                       th:value="${dto.title}" >
+            </div>
+            <div class="form-group">
+                <label>내용</label>
+                <textarea class="form-control" name="content"
+                          rows="5" >[[${dto.content}]]</textarea>
+            </div>
+            <div class="form-group">
+                <label>글쓴이</label>
+                <input type="text" class="form-control" name="writer"
+                       th:value="${dto.writer}" readonly>
+            </div>
+            <div class="form-group">
+                <label>등록날짜</label>
+                <input type="text" class="form-control"
+                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <div class="form-group">
+                <label>수정날짜</label>
+                <input type="text" class="form-control"
+                       th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <div style="margin-bottom: 20px;"></div>
+        </form>
+        <button type="button" class="btn btn-primary modifyBtn">수정하기</button>
+        <button type="button" class="btn btn-info listBtn">목록보기</button>
+        <button type="button" class="btn btn-danger removeBtn">삭제하기</button>
+        <div style="margin-bottom: 20px;"></div>
 
-     <div class="form-group">
-       <label>글쓴이</label>
-        <input type="text" class="form-control" name="writer"
-             th:value="${dto.writer}" readonly>
-     </div>
-     <div class="form-group">
-      <label>등록 일자</label>
-      <input type="text" class="form-control" name="regDate"
-             th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
-     </div>
-     <div class="form-group">
-      <label>수정 일자</label>
-      <input type="text" class="form-control" name="modDate"
-             th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
-     </div>
-      <div style="margin-bottom: 20px;"></div>
-    </form>
-    <button class="btn btn-primary modifyBtn">수정</button>
-    <button class="btn btn-listbtn">목록</button>
-    <button class="btn btn-danger romoveBtn">삭제</button>
-    <div style="margin-bottom: 20px;"></div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script th:inline="javascript">
+            var actionForm = $("form");
+            $(".removeBtn").click(function(){
+                if(!confirm('삭제하시겠습니까?')) return;
+                actionForm.attr("action", "/guestbook/remove").attr("method", "post");
+                actionForm.submit();
+            });
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script th:inline="javascript">
-      var actionForm = $("form");
-      $(".removeBtn").click(function(){
-          actionForm.attr("action", "/guestbook/remove")
-          .attr("method", "post");
-          actionForm.submit();
-      });
+             $(".modifyBtn").click(function(){
+                if(!confirm('수정하시겠습니까?')) return;
+                actionForm.attr("action","/guestbook/modify").attr("method","post");
+                actionForm.submit();
+             });
+             $(".listBtn").click(function(){
+                var pageInfo = $("input[name='page']");
+                actionForm.empty();
+                actionForm.append(pageInfo);
+                actionForm.attr("action","/guestbook/list").attr("method","get");
+                actionForm.submit();
+             });
 
-      $(".modifyBtn").click(function(){
-          if(!confirm('수정하시겠습니까?')){
-              return;
-          }
-          actionForm.attr("action", "/guestbook/modify")
-          .attr("method", "post");
-          actionForm.submit();
-      });
+        </script>
 
-      $(".modifyBtn").click(function(){
-          actionForm.attr("action", "/guestbook/modify")
-          .attr("method", "post");
-          actionForm.submit();
-      });
-    </script>
-  </th:block>
+    </th:block>
 </th:block>

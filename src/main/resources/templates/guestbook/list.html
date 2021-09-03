@@ -10,9 +10,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Gno</th>
                 <th scope="col">Title</th>
+                <th scope="col">Writer</th>
                 <th scope="col">RegDate</th>
             </tr>
             </thead>
@@ -46,11 +46,11 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">등록되었습니다.</h5>
+                        <h5 class="modal-title">되었습니다.</h5>
                         <button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"/>
                     </div>
                     <div class="modal-body">
-                        <p id="modalMsg"> 번 글이 등록되었습니다.</p>
+                        <p id="modalMsg"> 번 글이 <span class="modal-title"></span>되었습니다.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -68,14 +68,35 @@
             console.log(msg);
             if(msg){
                 $('#modalMsg').prepend(msg);
+                $('.modal-title').prepend([[${noti}]]);
                 $(".modal").modal();
-                }
+            }
             function read(gno, page){
                 /*[+
-                var url = [[@{/guestbook/read}]] + "?gno="+gno+"&page="+page;
+                var urlword = [[@{/guestbook/read}]] + "?gno="+gno+"&page="+page;
                 +]*/
-                location.href=url;
+                location.href=urlword;
             }
         </script>
+
+        <form action="/guestbook/list" method="get" id="searchForm">
+            <div class="input-group">
+                <input type="hidden" name="page" value = "1">
+                <div class="input-group-prepend">
+                    <select class="custom-select" name="type">
+                        <option th:selected="${pageRequestDTO.type == null}">---------</option>
+                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목 + 내용</option>
+                        <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">제목 + 내용 + 작성자</option>
+                    </select>
+                </div>
+                <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <div class="input-group-append" id=""button-addon4">
+            <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
+            </div>
+            </div>
+        </form>
     </th:block>
 </th:block>
